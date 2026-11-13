@@ -53,3 +53,18 @@ npm run dev
 ```
 
 Hoặc mở thẳng file `index.html` bằng trình duyệt cũng chạy được.
+
+## 👤 Tài khoản + đồng bộ đám mây (Supabase, miễn phí)
+
+App đã có sẵn: nút **👤 Tài khoản** (đăng ký / đăng nhập / đăng xuất), tự đồng bộ toàn bộ dữ liệu (checklist, vàng, cây, bộ sưu tập, 3 quỹ, ghi nhớ) theo từng tài khoản, và **hồ sơ cục bộ** để nhiều người dùng chung 1 máy khi chưa bật mây.
+
+Để bật mây thật (bạn bè mỗi người 1 tài khoản, đăng nhập máy nào cũng thấy dữ liệu của mình), chủ repo làm 1 lần, khoảng 5 phút:
+
+1. Vào [supabase.com](https://supabase.com) → đăng ký miễn phí → **New project** (đặt tên bất kỳ, chờ project khởi tạo)
+2. Trong project: **SQL Editor** → dán toàn bộ file `supabase-schema.sql` trong repo này → **Run**
+3. **Project Settings → API**: copy **Project URL** và **anon / publishable key**
+4. Điền 2 giá trị đó vào file `config.js` trong repo → commit / push lại (hoặc gửi cho Mao điền hộ — anon key là khóa công khai cho trình duyệt, an toàn khi để ở client vì dữ liệu đã khóa bằng Row Level Security: mỗi tài khoản chỉ thấy dữ liệu của mình)
+5. (Khuyên) **Authentication → Providers → Email**: giữ bật; nếu muốn đăng ký dùng ngay không cần xác nhận email thì tắt **Confirm email**
+6. Mở web live → bấm **👤 Tài khoản** → Đăng ký → Đăng nhập. Từ đó mọi thay đổi tự đẩy lên mây sau ~1 giây và tự tải về khi đăng nhập ở máy khác.
+
+> Chưa điền `config.js` thì app vẫn chạy bình thường ở chế độ lưu trên máy (và dùng được Hồ sơ cục bộ).

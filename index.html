@@ -33,7 +33,7 @@ dialog{background:#fff;color:var(--text);border:1px solid #cdeac2;border-radius:
 <div class="wrap">
 <header>
   <div><h1>🌱 Vườn Thói Quen</h1><div class="sub">Checklist mỗi ngày • Cây lớn nhờ Nước + Phân • Vàng mở rương ≠ Quỹ chi tiêu VND</div></div>
-  <div><span class="pill">🪙 Vàng: <b id="gold">0</b></span><span class="pill">🔥 Streak: <b id="streak">0</b></span><span class="pill">💧 Nước: <b id="waterStock">0</b></span><span class="pill">🌿 Phân: <b id="fertStock">0</b></span><span class="pill">💰 Khả dụng: <b id="fundAvail">0đ</b></span><span class="pill">🐷 Tiết kiệm: <b id="fundSaveTop">0đ</b></span></div>
+  <div><button class="ghost" onclick="openAccount()">👤 <span id="accountLabel">Tài khoản</span></button> <span class="pill">🪙 Vàng: <b id="gold">0</b></span><span class="pill">🔥 Streak: <b id="streak">0</b></span><span class="pill">💧 Nước: <b id="waterStock">0</b></span><span class="pill">🌿 Phân: <b id="fertStock">0</b></span><span class="pill">💰 Khả dụng: <b id="fundAvail">0đ</b></span><span class="pill">🐷 Tiết kiệm: <b id="fundSaveTop">0đ</b></span></div>
 </header>
 
 <!-- HOME -->
@@ -131,8 +131,24 @@ dialog{background:#fff;color:var(--text);border:1px solid #cdeac2;border-radius:
   <button data-nav="notes" onclick="go('notes')"><span class="ic">📝</span>Ghi nhớ</button>
 </nav>
 
+<dialog id="accountDialog">
+  <h3>👤 Tài khoản & Đồng bộ</h3>
+  <p class="small" id="syncStatus">Đang kiểm tra trạng thái...</p>
+  <div id="authForms">
+    <div class="row"><input id="authEmail" type="email" placeholder="Email"/><input id="authPass" type="password" placeholder="Mật khẩu (≥ 6 ký tự)"/></div>
+    <div class="row" style="margin-top:8px"><button class="primary" onclick="authSignIn()">Đăng nhập (mây)</button><button class="ghost" onclick="authSignUp()">Đăng ký (mây)</button></div>
+    <p class="small">Đăng nhập mây cần đã bật Supabase trong <code>config.js</code> — xem README. Bạn bè mỗi người đăng ký 1 tài khoản riêng, dữ liệu tự đồng bộ theo tài khoản đó.</p>
+    <hr/>
+    <p class="small"><b>Chưa bật mây?</b> Vẫn tạo được hồ sơ riêng ngay trên máy này (hữu ích khi nhiều người dùng chung 1 máy):</p>
+    <div class="row"><input id="profName" placeholder="Tên hồ sơ, ví dụ: ban-an"/><input id="profPass" type="password" placeholder="Mật khẩu hồ sơ"/></div>
+    <div class="row" style="margin-top:8px"><button class="primary" onclick="profileLogin()">Vào hồ sơ / Tạo hồ sơ</button><button class="ghost" onclick="profileLogout()">Về chế độ khách</button></div>
+  </div>
+  <p style="text-align:right"><button class="ghost" onclick="authSignOut()">Đăng xuất mây</button> <button class="primary" onclick="document.getElementById('accountDialog').close()">Đóng</button></p>
+</dialog>
 <dialog id="chestDialog"><h3 id="chestDialogTitle">Mở rương</h3><div class="collection" id="chestResults"></div><p style="text-align:right"><button class="primary" onclick="document.getElementById('chestDialog').close()">Đóng</button></p></dialog>
 
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const DEFAULT=[
  {id:'water',title:'💧 Uống đủ nước 3L (10 cốc)',reward:10,cat:'Sức khỏe',special:'water'},
@@ -167,7 +183,9 @@ function starInfo(dup){ // dup = extra copies beyond first owned
  if(dup>=5) return {star:1, next:15, have:dup, need:10};
  return {star:0, next:5, have:dup, need:5};
 }
-let S=JSON.parse(localStorage.getItem('vuon-thoi-quen-v2')||'null');
+const STATE_NS = localStorage.getItem('vth-current-profile') || 'guest';
+const STATE_KEY = STATE_NS==='guest' ? 'vuon-thoi-quen-v2' : 'vth-state-'+STATE_NS;
+let S=JSON.parse(localStorage.getItem(STATE_KEY)||'null');
 if(!S){ const old=JSON.parse(localStorage.getItem('vuon-thoi-quen')||'null'); S={gold:old?.coins||0,streak:old?.streak||0,tasks:DEFAULT,done:{},cups:0,waterStock:0,fertStock:0,waterUsedToday:false,fertUsedToday:false,growth:0,fruitsArr:[],collection:{},history:[],fundAvail:0,fundSave:0,fundLocked:[],expenses:[],topups:[],notes:[],settledToday:''}; }
 if(!Array.isArray(S.fruitsArr)){ S.fruitsArr=Array.from({length:(S.fruits||0)},()=>rollFruit()); delete S.fruits; }
 if(!Array.isArray(S.topups)) S.topups=[];
@@ -177,7 +195,7 @@ if(typeof S.lastPct!=='number') S.lastPct=0;
 if(!('fundGranted' in S)) S.fundGranted=false;
 if(!('chestDate' in S)) S.chestDate='';
 function rollFruit(){ const r=Math.random(); if(r<0.60) return {color:'green',icon:'🟢',name:'Trái xanh lá',price:10}; if(r<0.90) return {color:'red',icon:'🔴',name:'Trái đỏ',price:25}; return {color:'yellow',icon:'🟡',name:'Trái vàng',price:50}; }
-function save(){ S.lastPct=pct(); localStorage.setItem('vuon-thoi-quen-v2',JSON.stringify(S)); render(); }
+function save(){ S.lastPct=pct(); localStorage.setItem(STATE_KEY,JSON.stringify(S)); render(); cloudPush(); }
 function go(p){document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('active',b.dataset.nav===p));window.scrollTo({top:0})}
 function fmt(n){return n.toLocaleString('vi-VN')+'đ'}
 function pct(){if(!S.tasks.length)return 0;return Math.round(S.tasks.filter(t=>isDone(t)).length/S.tasks.length*100)}
@@ -233,6 +251,22 @@ function addExpense(){ const title=document.getElementById('expTitle').value.tri
 function topupFund(){ const amount=parseInt(document.getElementById('topupAmount').value||'0'); const note=document.getElementById('topupNote').value.trim(); if(amount<=0)return alert('Nhập số tiền nạp thêm'); S.fundAvail+=amount; S.topups.push({date:new Date().toLocaleDateString('vi-VN'),amount,note}); document.getElementById('topupAmount').value=''; document.getElementById('topupNote').value=''; save(); alert(`Đã nạp thêm ${fmt(amount)} vào quỹ khả dụng`); }
 function addNote(){ const title=document.getElementById('noteTitle').value.trim(); if(!title)return alert('Nhập điều cần ghi nhớ'); S.notes.push({title,body:document.getElementById('noteBody').value.trim(),date:new Date().toLocaleDateString('vi-VN')}); document.getElementById('noteTitle').value=''; document.getElementById('noteBody').value=''; save(); }
 function removeNote(idx){ S.notes.splice(idx,1); save(); }
+
+// ===== Tài khoản + Đồng bộ đám mây (Supabase) =====
+let sb=null, sbUser=null, pushTimer=null;
+try{ const cfg=window.APP_CONFIG||{}; if(cfg.SUPABASE_URL&&cfg.SUPABASE_ANON_KEY&&window.supabase){ sb=window.supabase.createClient(cfg.SUPABASE_URL,cfg.SUPABASE_ANON_KEY); } }catch(e){ console.warn('Supabase init',e); }
+function setSyncStatus(t){ const el=document.getElementById('syncStatus'); if(el) el.textContent=t; const lb=document.getElementById('accountLabel'); if(lb) lb.textContent=sbUser?sbUser.email:('Tài khoản'+(STATE_NS!=='guest'?' • '+STATE_NS:'')); }
+function openAccount(){ setSyncStatus(sbUser?('☁️ Đã đăng nhập mây: '+sbUser.email+' — dữ liệu đang đồng bộ theo tài khoản này.'):(sb?'Chưa đăng nhập mây. Đăng nhập / đăng ký để đồng bộ dữ liệu mọi máy.':'⚠️ Chưa bật mây (config.js đang trống) — đang dùng dữ liệu lưu trên máy này'+(STATE_NS!=='guest'?(' • Hồ sơ: '+STATE_NS):'')+'. Xem README để bật Supabase miễn phí.')); document.getElementById('accountDialog').showModal(); }
+async function cloudPush(){ if(!sb||!sbUser) return; clearTimeout(pushTimer); pushTimer=setTimeout(async()=>{ try{ await sb.from('user_state').upsert({user_id:sbUser.id, state:S, updated_at:new Date().toISOString()}); }catch(e){ console.warn('cloudPush',e); } }, 800); }
+async function cloudPull(){ if(!sb||!sbUser) return; const {data,error}=await sb.from('user_state').select('state').eq('user_id',sbUser.id).maybeSingle(); if(error){ console.warn('cloudPull',error); return; } if(data&&data.state&&Object.keys(data.state).length){ S=data.state; if(!Array.isArray(S.fruitsArr)) S.fruitsArr=[]; if(!Array.isArray(S.topups)) S.topups=[]; localStorage.setItem(STATE_KEY,JSON.stringify(S)); render(); } else { cloudPush(); } }
+async function authSignUp(){ if(!sb) return alert('Chưa bật mây — điền SUPABASE_URL và SUPABASE_ANON_KEY trong config.js trước (xem README)'); const email=document.getElementById('authEmail').value.trim(); const password=document.getElementById('authPass').value; const {error}=await sb.auth.signUp({email,password}); if(error) return alert('Đăng ký lỗi: '+error.message); alert('Đã đăng ký! Nếu Supabase bật xác nhận email, hãy mở email để xác nhận rồi đăng nhập.'); }
+async function authSignIn(){ if(!sb) return alert('Chưa bật mây — điền SUPABASE_URL và SUPABASE_ANON_KEY trong config.js trước (xem README)'); const email=document.getElementById('authEmail').value.trim(); const password=document.getElementById('authPass').value; const {data,error}=await sb.auth.signInWithPassword({email,password}); if(error) return alert('Đăng nhập lỗi: '+error.message); sbUser=data.user; setSyncStatus('☁️ Đã đăng nhập mây: '+sbUser.email); await cloudPull(); alert('Đăng nhập thành công — dữ liệu đã đồng bộ theo tài khoản của bạn.'); }
+async function authSignOut(){ if(sb){ await sb.auth.signOut(); } sbUser=null; setSyncStatus('Đã đăng xuất mây.'); }
+if(sb){ sb.auth.getSession().then(({data})=>{ sbUser=data.session?.user||null; setSyncStatus(sbUser?('☁️ Đã đăng nhập mây: '+sbUser.email):'Chưa đăng nhập mây.'); if(sbUser) cloudPull(); }); sb.auth.onAuthStateChange((_e,session)=>{ sbUser=session?.user||null; setSyncStatus(sbUser?('☁️ Đã đăng nhập mây: '+sbUser.email):'Chưa đăng nhập mây.'); }); } else { setSyncStatus('Chưa bật mây — dữ liệu lưu trên máy này.'); }
+// Hồ sơ cục bộ (nhiều người dùng chung 1 máy, chưa cần mây)
+async function sha256(t){ const buf=await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)); return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join(''); }
+async function profileLogin(){ const name=document.getElementById('profName').value.trim().toLowerCase(); const pass=document.getElementById('profPass').value; if(!name||!pass) return alert('Nhập tên hồ sơ và mật khẩu'); const profs=JSON.parse(localStorage.getItem('vth-profiles')||'{}'); const hash=await sha256(pass); if(profs[name]&&profs[name]!==hash) return alert('Sai mật khẩu hồ sơ này'); profs[name]=hash; localStorage.setItem('vth-profiles',JSON.stringify(profs)); localStorage.setItem('vth-current-profile',name); location.reload(); }
+function profileLogout(){ localStorage.removeItem('vth-current-profile'); location.reload(); }
 settleRollover(); save();
 </script>
 </body>
