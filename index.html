@@ -5,32 +5,35 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Daily Checklist - Vườn Thói Quen</title>
 <style>
-:root{--bg:#0f1f16;--card:#162a1e;--card2:#1c3526;--text:#eef7f0;--muted:#a7c4ae;--green:#4ade80;--gold:#facc15;--red:#f87171;--gray:#9ca3af;--blue:#38bdf8;--purple:#c084fc;--orange:#fb923c}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:radial-gradient(1200px 600px at 20% -10%,#1d4d2e,transparent),var(--bg);color:var(--text);padding-bottom:92px}
-.wrap{max-width:1080px;margin:0 auto;padding:20px}header{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
-h1{margin:0;font-size:28px}.sub{color:var(--muted)}.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid #2a4a33;border-radius:16px;padding:16px;margin-top:16px}
-.task{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #2a4a33;border-radius:12px;margin:8px 0;background:#12241a}.task.done{opacity:.8;border-color:var(--green)}.task b{flex:1}
-button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;font-weight:700}.primary{background:var(--green);color:#06210f}.ghost{background:#243d2c;color:var(--text)}.danger{background:#3a1f1f;color:#fecaca}.goldbtn{background:var(--gold);color:#231a00}
-input,select,textarea{padding:10px;border-radius:10px;border:1px solid #355843;background:#0f2016;color:var(--text);width:100%;font-family:inherit}
-.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1}.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#243d2c;font-size:13px;margin:2px}
-.progress{height:12px;background:#0b1710;border-radius:999px;overflow:hidden}.bar{height:100%;background:var(--green);transition:.4s}
+:root{--bg:#f4fbf0;--card:#ffffff;--card2:#eaf7e6;--text:#17351f;--muted:#5b7263;--green:#22c55e;--gold:#f59e0b;--red:#ef4444;--gray:#9ca3af;--blue:#0ea5e9;--purple:#a855f7;--orange:#f97316}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,#d9f7c4,#f4fbf0 320px);color:var(--text);padding-bottom:92px}
+.wrap{max-width:1080px;margin:0 auto;padding:16px}header{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+h1{margin:0;font-size:27px}.sub{color:var(--muted)}.card{background:var(--card);border:1px solid #cdeac2;border-radius:18px;padding:16px;margin-top:14px;box-shadow:0 4px 18px #3a7d4422}
+.task{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #d7ecd0;border-radius:14px;margin:8px 0;background:#f6fdf3}.task.done{border-color:var(--green);background:#e9fbe7}.task b{flex:1}
+button{cursor:pointer;border:0;border-radius:12px;padding:10px 14px;font-weight:700}.primary{background:var(--green);color:#fff}.ghost{background:#e2f2da;color:var(--text)}.danger{background:#fee2e2;color:#b91c1c}.goldbtn{background:var(--gold);color:#fff}
+input,select,textarea{padding:10px;border-radius:10px;border:1px solid #bcd8b0;background:#fff;color:var(--text);width:100%;font-family:inherit}
+.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1}.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#e2f2da;font-size:13px;margin:2px}
+.progress{height:12px;background:#e5efe0;border-radius:999px;overflow:hidden}.bar{height:100%;background:linear-gradient(90deg,#4ade80,#22c55e);transition:.4s}
 .small{font-size:13px;color:var(--muted)}.page{display:none}.page.active{display:block}
-.bottomnav{position:fixed;left:0;right:0;bottom:0;background:#0b1710ee;border-top:1px solid #2a4a33;display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:50;backdrop-filter:blur(8px)}
-.bottomnav button{background:transparent;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;flex:1}.bottomnav button.active{color:var(--green)}.bottomnav .ic{font-size:22px}
+.bottomnav{position:fixed;left:0;right:0;bottom:0;background:#fffffff2;border-top:1px solid #cdeac2;display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:50;box-shadow:0 -4px 18px #3a7d4422}
+.bottomnav button{background:transparent;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;flex:1}.bottomnav button.active{color:#16a34a}.bottomnav .ic{font-size:22px}
 .treeScene{text-align:center;padding:10px;overflow:hidden}.treeEmoji{transition:transform .8s ease;display:inline-block}.growing{animation:grow 1.2s ease}@keyframes grow{0%{transform:scale(.85)}55%{transform:scale(1.18) rotate(-2deg)}100%{transform:scale(1)}}
 .bird{animation:flap 2s infinite ease-in-out;display:inline-block}@keyframes flap{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.cups{display:flex;gap:6px;flex-wrap:wrap}.cup{width:44px;height:52px;border-radius:8px;background:#243d2c;color:var(--text)}.cup.full{background:#2563eb}
-.collection{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}.item{background:#0f2016;border:2px solid var(--gray);padding:10px;border-radius:12px;text-align:center}.item.rare{border-color:var(--blue)}.item.epic{border-color:var(--purple)}.item.legendary{border-color:var(--orange)}
-.r-common{color:var(--gray)}.r-rare{color:var(--blue)}.r-epic{color:var(--purple)}.r-legendary{color:var(--orange)}
-.chest{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px;border-radius:12px;margin:8px 0;background:#0f2016;border:1px solid #2a4a33}
-dialog{background:var(--card2);color:var(--text);border:1px solid #2a4a33;border-radius:16px;max-width:640px;width:92%}
+.cups{display:flex;gap:6px;flex-wrap:wrap}.cup{width:44px;height:52px;border-radius:8px;background:#e2f2da;color:var(--text)}.cup.full{background:#38bdf8;color:#fff}
+.collection{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px}.item{background:#fbfef9;border:2px solid var(--gray);padding:10px;border-radius:12px;text-align:center}.item.rare{border-color:var(--blue)}.item.epic{border-color:var(--purple)}.item.legendary{border-color:var(--orange)}
+.r-common{color:#6b7280}.r-rare{color:var(--blue)}.r-epic{color:var(--purple)}.r-legendary{color:var(--orange)}
+.chest{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px;border-radius:12px;margin:8px 0;background:#f6fdf3;border:1px solid #d7ecd0}
+dialog{background:#fff;color:var(--text);border:1px solid #cdeac2;border-radius:18px;max-width:640px;width:92%}
+.bigChest{font-size:76px;text-align:center;animation:chestShake 1s ease}@keyframes chestShake{0%,100%{transform:rotate(0)}15%{transform:rotate(-7deg) scale(1.06)}30%{transform:rotate(6deg)}45%{transform:rotate(-6deg) scale(1.1)}60%{transform:rotate(5deg)}80%{transform:scale(1.22)}}
+.reveal{animation:popIn .45s ease both}@keyframes popIn{from{opacity:0;transform:scale(.6) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.fundCards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}@media(max-width:640px){.fundCards{grid-template-columns:1fr}h1{font-size:23px}.wrap{padding:12px}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
   <div><h1>🌱 Vườn Thói Quen</h1><div class="sub">Checklist mỗi ngày • Cây lớn nhờ Nước + Phân • Vàng mở rương ≠ Quỹ chi tiêu VND</div></div>
-  <div><span class="pill">🪙 Vàng: <b id="gold">0</b></span><span class="pill">🔥 Streak: <b id="streak">0</b></span><span class="pill">💧 Nước: <b id="waterStock">0</b></span><span class="pill">🌿 Phân: <b id="fertStock">0</b></span><span class="pill">💰 Quỹ khả dụng: <b id="fundAvail">0đ</b></span></div>
+  <div><span class="pill">🪙 Vàng: <b id="gold">0</b></span><span class="pill">🔥 Streak: <b id="streak">0</b></span><span class="pill">💧 Nước: <b id="waterStock">0</b></span><span class="pill">🌿 Phân: <b id="fertStock">0</b></span><span class="pill">💰 Khả dụng: <b id="fundAvail">0đ</b></span><span class="pill">🐷 Tiết kiệm: <b id="fundSaveTop">0đ</b></span></div>
 </header>
 
 <!-- HOME -->
@@ -38,7 +41,7 @@ dialog{background:var(--card2);color:var(--text);border:1px solid #2a4a33;border
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center"><h2>🏠 Hôm nay</h2><span id="today"></span></div>
     <div class="progress"><div class="bar" id="bar" style="width:0%"></div></div>
-    <p class="small"><span id="pct">0%</span> hoàn thành • Dưới 50% khi chốt ngày = mất streak, cây chết • Xong 100% checklist ngày = nhận ngay Vàng + 1 Rương Đồng miễn phí, Quỹ chi tiêu +100.000đ tiêu ngay • Chưa xong 100% = 100.000đ vào Quỹ khóa (xem tab Chi tiêu)</p>
+    <p class="small"><span id="pct">0%</span> hoàn thành • Dưới 50% khi chốt ngày = mất streak, cây chết • Xong 100% checklist = nhận ngay Vàng + 1 Rương Đồng miễn phí + 100.000đ vào Khả dụng • Tự chốt lúc 24h đêm, chưa xong 100% thì 100.000đ vào Khóa (xem tab Chi tiêu)</p>
     <div id="tasks"></div>
     <div class="card" style="margin-top:12px">
       <h3>💧 Uống nước: 3 lít = 10 cốc × 300ml</h3>
@@ -46,7 +49,8 @@ dialog{background:var(--card2);color:var(--text);border:1px solid #2a4a33;border
       <div class="cups" id="cups"></div>
       <p><b id="cupText">0/10 cốc • 0 ml</b></p>
     </div>
-    <div class="row" style="margin-top:12px"><button class="primary" onclick="finishDay()">🌙 Kết thúc ngày & Chốt thưởng</button><button class="ghost" onclick="resetToday()">↩️ Làm lại hôm nay (demo)</button></div>
+    <div class="row" style="margin-top:12px"><button class="ghost" onclick="resetToday()">↩️ Làm lại hôm nay (demo)</button></div>
+    <p class="small">⚡ Thưởng nhận <b>ngay khi tích</b>: vàng cộng thẳng vào ví, đạt 100% là Rương Đồng miễn phí + 100.000đ vào Khả dụng hiện luôn — <b>không cần bấm chốt ngày</b>. Hệ thống tự chốt ngày lúc <b>24h đêm</b> (khi mở lại app sang ngày mới).</p>
     <p id="msg" class="small"></p>
     <p class="small">Lưu ý: Hòm khóa xu ở Home đã bỏ theo yêu cầu mới. Phần chưa hoàn thành giờ đi vào <b>Quỹ khóa VND</b> ở tab Chi tiêu, mở vào ngày 1 tháng sau — hoàn toàn khác với Vàng mua rương.</p>
   </div>
@@ -80,7 +84,7 @@ dialog{background:var(--card2);color:var(--text);border:1px solid #2a4a33;border
 <section id="page-collection" class="page">
   <div class="card">
     <h2>🎁 Rương — mua bằng Vàng</h2>
-    <p class="small">⭐ Riêng thưởng ngày: xong 100% checklist và bấm <b>Kết thúc ngày</b> ở Home là nhận <b>ngay</b> Vàng nhiệm vụ + 1 Rương Đồng miễn phí (5 vật phẩm), không cần chờ qua ngày mới.</p>
+    <p class="small">⭐ Riêng thưởng ngày: tích xong 100% checklist là nhận <b>ngay</b> Vàng nhiệm vụ + 1 Rương Đồng miễn phí (5 vật phẩm) với animation mở rương — không cần bấm chốt ngày, hệ thống tự chốt lúc 24h đêm.</p>
     <div class="chest"><span>🥉 <b>Rương Đồng — 100 vàng</b><br><span class="small">Mở ra 5 vật phẩm (Thường/Hiếm)</span></span><button class="goldbtn" onclick="buyChest('bronze')">Mở 100 🪙</button></div>
     <div class="chest"><span>🥈 <b>Rương Bạc — 500 vàng</b><br><span class="small">Mở ra 10 vật phẩm, chắc chắn có 1 Sử thi</span></span><button class="goldbtn" onclick="buyChest('silver')">Mở 500 🪙</button></div>
     <div class="chest"><span>🥇 <b>Rương Vàng — 1.000 vàng</b><br><span class="small">Mở ra 30 vật phẩm, có tỉ lệ ra 1 Huyền thoại</span></span><button class="goldbtn" onclick="buyChest('gold')">Mở 1.000 🪙</button></div>
@@ -94,10 +98,11 @@ dialog{background:var(--card2);color:var(--text);border:1px solid #2a4a33;border
 <!-- EXPENSE -->
 <section id="page-expense" class="page">
   <div class="card">
-    <h2>💰 Quỹ chi tiêu (VND) — khác với Vàng mua rương</h2>
-    <p>Quỹ khả dụng: <b id="fundAvail2">0đ</b> • Quỹ đang khóa (mở ngày 1 tháng sau): <b id="fundLocked">0đ</b></p>
-    <p class="small">Xong 100% checklist ngày khi chốt ngày: +100.000đ vào quỹ khả dụng, tiêu ngay được. Chưa xong 100%: 100.000đ đó vào quỹ khóa, mở ngày 1 tháng sau. Quỹ khả dụng <b>luôn cộng dồn tích lũy</b>, không reset theo tháng.</p>
-    <button class="primary" onclick="claimLockedFund()">🔓 Nhận quỹ khóa (khi đã tới ngày mở)</button>
+    <h2>💰 Chi tiêu (VND) — 3 quỹ: Khả dụng • Khóa • Tiết kiệm — khác với Vàng mua rương</h2>
+    <div class="fundCards"><div class="chest"><span>💰 <b>Khả dụng</b><br><b id="fundAvail2">0đ</b><br><span class="small">Tiêu ngay được</span></span></div><div class="chest"><span>🔒 <b>Khóa</b><br><b id="fundLocked">0đ</b><br><span class="small">Mở vào ngày 1 tháng sau</span></span></div><div class="chest"><span>🐷 <b>Tiết kiệm</b><br><b id="fundSave">0đ</b><br><span class="small">Để dành lâu dài</span></span></div></div>
+    <p class="small">Đạt 100% checklist: +100.000đ vào <b>Khả dụng</b> ngay khi tích xong, tiêu ngay được. Tự chốt 24h đêm: chưa đạt 100% thì 100.000đ vào <b>Khóa</b>, mở ngày 1 tháng sau và chọn chuyển qua Khả dụng hoặc Tiết kiệm. Khả dụng <b>luôn cộng dồn tích lũy</b>, không reset theo tháng.</p>
+    <p class="small">Tiền vào Quỹ Khóa ngày nào trong tháng — kể cả ngày 31 — thì <b>ngày 1 tháng sau vẫn mở đủ</b>. Khi mở, chọn chuyển qua Khả dụng (để tiêu) hoặc qua Tiết kiệm (để dành):</p>
+    <div class="row"><button class="primary" onclick="unlockFund('avail')">🔓 Mở Khóa → Chuyển qua Khả dụng</button><button class="goldbtn" onclick="unlockFund('save')">🔓 Mở Khóa → Chuyển qua Tiết kiệm</button></div>
     <h3>➕ Nạp thêm vào quỹ</h3>
     <div class="row"><input id="topupAmount" type="number" min="1000" step="1000" placeholder="Số tiền nạp thêm VND"/><input id="topupNote" placeholder="Ghi chú nạp (không bắt buộc)"/><button class="primary" onclick="topupFund()" style="flex:0">Nạp thêm</button></div>
     <h3>Ghi chi tiêu theo danh mục</h3>
@@ -163,11 +168,16 @@ function starInfo(dup){ // dup = extra copies beyond first owned
  return {star:0, next:5, have:dup, need:5};
 }
 let S=JSON.parse(localStorage.getItem('vuon-thoi-quen-v2')||'null');
-if(!S){ const old=JSON.parse(localStorage.getItem('vuon-thoi-quen')||'null'); S={gold:old?.coins||0,streak:old?.streak||0,tasks:DEFAULT,done:{},cups:0,waterStock:0,fertStock:0,waterUsedToday:false,fertUsedToday:false,growth:0,fruitsArr:[],collection:{},history:[],fundAvail:0,fundLocked:[],expenses:[],topups:[],notes:[],settledToday:''}; }
+if(!S){ const old=JSON.parse(localStorage.getItem('vuon-thoi-quen')||'null'); S={gold:old?.coins||0,streak:old?.streak||0,tasks:DEFAULT,done:{},cups:0,waterStock:0,fertStock:0,waterUsedToday:false,fertUsedToday:false,growth:0,fruitsArr:[],collection:{},history:[],fundAvail:0,fundSave:0,fundLocked:[],expenses:[],topups:[],notes:[],settledToday:''}; }
 if(!Array.isArray(S.fruitsArr)){ S.fruitsArr=Array.from({length:(S.fruits||0)},()=>rollFruit()); delete S.fruits; }
 if(!Array.isArray(S.topups)) S.topups=[];
+if(typeof S.fundSave!=='number') S.fundSave=0;
+if(!S.dayKey) S.dayKey='';
+if(typeof S.lastPct!=='number') S.lastPct=0;
+if(!('fundGranted' in S)) S.fundGranted=false;
+if(!('chestDate' in S)) S.chestDate='';
 function rollFruit(){ const r=Math.random(); if(r<0.60) return {color:'green',icon:'🟢',name:'Trái xanh lá',price:10}; if(r<0.90) return {color:'red',icon:'🔴',name:'Trái đỏ',price:25}; return {color:'yellow',icon:'🟡',name:'Trái vàng',price:50}; }
-function save(){localStorage.setItem('vuon-thoi-quen-v2',JSON.stringify(S));render()}
+function save(){ S.lastPct=pct(); localStorage.setItem('vuon-thoi-quen-v2',JSON.stringify(S)); render(); }
 function go(p){document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('active',b.dataset.nav===p));window.scrollTo({top:0})}
 function fmt(n){return n.toLocaleString('vi-VN')+'đ'}
 function pct(){if(!S.tasks.length)return 0;return Math.round(S.tasks.filter(t=>isDone(t)).length/S.tasks.length*100)}
@@ -178,7 +188,7 @@ function render(){
  document.getElementById('waterStock').textContent=S.waterStock; document.getElementById('fertStock').textContent=S.fertStock;
  document.querySelectorAll('.wStock').forEach(e=>e.textContent=S.waterStock); document.querySelectorAll('.fStock').forEach(e=>e.textContent=S.fertStock);
  const lockedTotal=S.fundLocked.filter(x=>!x.claimed).reduce((a,x)=>a+x.amount,0);
- document.getElementById('fundAvail').textContent=fmt(S.fundAvail); document.getElementById('fundAvail2').textContent=fmt(S.fundAvail); document.getElementById('fundLocked').textContent=fmt(lockedTotal);
+ document.getElementById('fundAvail').textContent=fmt(S.fundAvail); document.getElementById('fundAvail2').textContent=fmt(S.fundAvail); document.getElementById('fundLocked').textContent=fmt(lockedTotal); const fs=document.getElementById('fundSave'); if(fs) fs.textContent=fmt(S.fundSave); const fst=document.getElementById('fundSaveTop'); if(fst) fst.textContent=fmt(S.fundSave);
  document.getElementById('today').textContent=new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'});
  const p=pct(); document.getElementById('bar').style.width=p+'%'; document.getElementById('pct').textContent=p+'%';
  document.getElementById('tasks').innerHTML=S.tasks.map(t=>`<div class="task ${isDone(t)?'done':''}"><input type="checkbox" style="width:20px;height:20px" ${isDone(t)?'checked':''} ${t.special==='water'?'disabled':''} onchange="toggle('${t.id}')"/><b>${t.title}${t.special==='exercise'?' <span class=small>(xong = +1 Phân)</span>':''}${t.special==='water'?' <span class=small>(dùng mục cốc nước bên dưới)</span>':''}</b><span class="pill">${t.cat}</span><span class="pill">+${t.reward} vàng</span><button class="danger" onclick="removeTask('${t.id}')">Xóa</button></div>`).join('');
@@ -198,17 +208,21 @@ function render(){
  document.getElementById('expenses').innerHTML=[...S.topups.slice().reverse().map(e=>`<div class="small">• ${e.date} — ➕ Nạp thêm ${e.note?'('+e.note+')':''}: +${fmt(e.amount)}</div>`),...S.expenses.slice().reverse().map(e=>`<div class="small">• ${e.date} — [${e.cat||'Khác'}] ${e.title}: -${fmt(e.amount)}</div>`)].join('')||'<p class="small">Chưa có chi tiêu / nạp thêm nào.</p>';
  document.getElementById('notes').innerHTML=S.notes.slice().reverse().map((n,i)=>`<div class="chest"><span><b>${n.title}</b><br><span class="small">${n.body||''} • ${n.date}</span></span><button class="danger" onclick="removeNote(${S.notes.length-1-i})">Xóa</button></div>`).join('')||'<p class="small">Chưa có ghi nhớ nào.</p>';
 }
-function toggle(id){ const t=S.tasks.find(x=>x.id===id); if(!t||t.special==='water')return; S.done[id]=!S.done[id]; if(!S.done[id])delete S.done[id]; else if(t.special==='exercise'){S.fertStock+=1;} if(t.special==='exercise'&&!S.done[id]){S.fertStock=Math.max(0,S.fertStock-1);} save() }
-function setCups(n){ const before=S.cups; S.cups=(S.cups===n&&n>0)?n-1:n; if(before<10&&S.cups>=10){S.waterStock+=1;} if(before>=10&&S.cups<10){S.waterStock=Math.max(0,S.waterStock-1);} save() }
+function toggle(id){ const t=S.tasks.find(x=>x.id===id); if(!t||t.special==='water')return; const nowOn=!S.done[id]; if(nowOn){S.done[id]=true; S.gold+=t.reward; if(t.special==='exercise')S.fertStock+=1;} else {delete S.done[id]; S.gold=Math.max(0,S.gold-t.reward); if(t.special==='exercise')S.fertStock=Math.max(0,S.fertStock-1);} save(); checkInstantReward(); }
+function setCups(n){ const before=S.cups; const wt=S.tasks.find(t=>t.special==='water'); const wr=wt?wt.reward:10; S.cups=(S.cups===n&&n>0)?n-1:n; if(before<10&&S.cups>=10){S.waterStock+=1; S.gold+=wr;} if(before>=10&&S.cups<10){S.waterStock=Math.max(0,S.waterStock-1); S.gold=Math.max(0,S.gold-wr);} save(); checkInstantReward(); }
 function addTask(){const title=document.getElementById('newTitle').value.trim(); if(!title)return alert('Nhập tên nhiệm vụ'); S.tasks.push({id:'t'+Date.now(),title,reward:Math.max(1,parseInt(document.getElementById('newReward').value||'10')),cat:document.getElementById('newCat').value}); document.getElementById('newTitle').value=''; save()}
 function removeTask(id){S.tasks=S.tasks.filter(t=>t.id!==id); delete S.done[id]; save()}
 function resetToday(){S.done={};S.cups=0;S.waterUsedToday=false;S.fertUsedToday=false;S.settledToday='';save()}
 function drawChestItems(type,count){ const results=[]; for(let i=0;i<count;i++){ let item; if(type==='silver'&&i===0) item=drawOne('epic'); else if(type==='gold'&&i===0&&Math.random()<0.35) item=drawOne('legendary'); else item=drawOne(rollRarity(type)); if(!S.collection[item.id])S.collection[item.id]={count:0}; S.collection[item.id].count++; results.push(item); } return results; }
-function showChestResults(type,results,free){ document.getElementById('chestDialogTitle').textContent=`${free?'🎁 Thưởng ngày — ':''}Mở rương ${type==='bronze'?'Đồng':type==='silver'?'Bạc':'Vàng'} — ${results.length} vật phẩm`; document.getElementById('chestResults').innerHTML=results.map(c=>`<div class="item ${c.rarity}"><div style="font-size:28px">${c.icon}</div><b>${c.name}</b><br><span class="r-${c.rarity}">${RNAME[c.rarity]}</span></div>`).join(''); document.getElementById('chestDialog').showModal(); }
-function finishDay(){ const today=new Date().toISOString().slice(0,10); if(S.settledToday===today) return alert('Hôm nay đã chốt ngày rồi — thưởng ngày chỉ nhận 1 lần/ngày'); const p=pct(); const earned=S.tasks.filter(t=>isDone(t)).reduce((a,t)=>a+t.reward,0); S.gold+=earned; S.settledToday=today; let freeChest=null; let fruitMsg='';
- if(p>=50){ S.streak+=1; if(S.streak%5===0){ const f=rollFruit(); S.fruitsArr.push(f); fruitMsg=` Cây ra thêm 1 trái ${f.icon} ${f.name} (mốc chuỗi ${S.streak}, tổng trên cây tính mốc này là ${S.streak/5} trái nếu chưa thu hoạch).`; } } else { S.streak=0; S.fruitsArr=[]; }
- if(p===100){ S.fundAvail+=100000; freeChest=drawChestItems('bronze',5); document.getElementById('msg').textContent=`✅ Xong 100% checklist — nhận ngay +${earned} vàng nhiệm vụ, Quỹ khả dụng +100.000đ, và 1 Rương Đồng miễn phí (5 vật phẩm đã vào Bộ sưu tập). Streak ${S.streak}.${fruitMsg}`; } else { const unlock=new Date(); unlock.setMonth(unlock.getMonth()+1,1); S.fundLocked.push({date:today,amount:100000,unlockAt:unlock.toISOString(),claimed:false}); document.getElementById('msg').textContent=p>=50?`Đã chốt ${p}% — nhận +${earned} vàng nhiệm vụ và giữ streak ${S.streak}, nhưng chưa xong 100% nên 100.000đ vào Quỹ khóa (mở ngày 1 tháng sau), chưa có Rương thưởng ngày.${fruitMsg}`:`💀 ${p}% — mất streak, cây chết và trái trên cây mất hết. Nhận +${earned} vàng nhiệm vụ đã làm, 100.000đ vào Quỹ khóa mở ngày 1 tháng sau.`; }
- S.history.push({date:today,pct:p,earned}); S.done={}; S.cups=0; S.waterUsedToday=false; S.fertUsedToday=false; save(); if(freeChest) showChestResults('bronze',freeChest,true); }
+function showChestResults(type,results,free){ document.getElementById('chestDialogTitle').textContent=`${free?'🎁 Thưởng ngày — ':''}Mở rương ${type==='bronze'?'Đồng':type==='silver'?'Bạc':'Vàng'} — ${results.length} vật phẩm`; document.getElementById('chestResults').innerHTML=`<div class="bigChest" style="grid-column:1/-1">🎁</div>`+results.map((c,i)=>`<div class="item ${c.rarity} reveal" style="animation-delay:${900+i*140}ms"><div style="font-size:28px">${c.icon}</div><b>${c.name}</b><br><span class="r-${c.rarity}">${RNAME[c.rarity]}</span></div>`).join(''); document.getElementById('chestDialog').showModal(); }
+function checkInstantReward(){ const today=new Date().toISOString().slice(0,10); const p=pct();
+ if(p===100){ let results=null; if(!S.fundGranted){ S.fundGranted=true; S.fundAvail+=100000; } if(S.chestDate!==today){ S.chestDate=today; results=drawChestItems('bronze',5); } save(); document.getElementById('msg').textContent='🎉 Đạt 100% — nhận ngay: vàng đã cộng khi tích, +100.000đ vào Khả dụng và 1 Rương Đồng miễn phí!'; if(results) showChestResults('bronze',results,true); return; }
+ if(p<100&&S.fundGranted){ S.fundGranted=false; S.fundAvail=Math.max(0,S.fundAvail-100000); save(); document.getElementById('msg').textContent='Đã bỏ tích xuống dưới 100% nên 100.000đ Khả dụng hôm nay đã thu hồi về Khóa (rương đã mở thì giữ nguyên).'; } }
+function settleRollover(){ const today=new Date().toISOString().slice(0,10); if(!S.dayKey){ S.dayKey=today; return; } if(S.dayKey===today) return; const prev=S.dayKey; const p=S.lastPct;
+ if(p>=50){ S.streak+=1; if(S.streak%5===0){ S.fruitsArr.push(rollFruit()); } } else { S.streak=0; S.fruitsArr=[]; }
+ if(p<100&&!S.fundGranted){ const d=new Date(prev+'T12:00:00'); const unlock=new Date(d.getFullYear(),d.getMonth()+1,1); S.fundLocked.push({date:prev,amount:100000,unlockAt:unlock.toISOString(),claimed:false}); }
+ S.history.push({date:prev,pct:p,earned:0,auto:true}); S.done={}; S.cups=0; S.waterUsedToday=false; S.fertUsedToday=false; S.fundGranted=false; S.dayKey=today; S.lastPct=0; }
+function unlockFund(dest){ const now=Date.now(); let total=0; S.fundLocked.forEach(x=>{if(!x.claimed&&now>=new Date(x.unlockAt).getTime()){x.claimed=true; total+=x.amount;}}); if(!total)return alert('Chưa tới ngày mở Khóa (ngày 1 tháng sau) hoặc Khóa đang trống'); if(dest==='save'){ S.fundSave+=total; alert(`Đã mở Khóa: +${fmt(total)} chuyển qua Tiết kiệm`); } else { S.fundAvail+=total; alert(`Đã mở Khóa: +${fmt(total)} chuyển qua Khả dụng`); } save(); }
 function careTree(kind){ if(kind==='water'){ if(S.waterStock<=0)return alert('Chưa có Nước — hãy uống đủ 10 cốc nước trước'); if(S.waterUsedToday)return alert('Hôm nay đã tưới rồi'); S.waterStock--; S.waterUsedToday=true; } else { if(S.fertStock<=0)return alert('Chưa có Phân — hãy hoàn thành nhiệm vụ Tập thể dục trước'); if(S.fertUsedToday)return alert('Hôm nay đã bón phân rồi'); S.fertStock--; S.fertUsedToday=true; }
  if(S.waterUsedToday&&S.fertUsedToday){ S.growth+=1; const el=document.getElementById('treeEmoji'); el.classList.remove('growing'); void el.offsetWidth; el.classList.add('growing'); document.getElementById('careMsg').textContent='🌟 Đủ Nước + Phân — cây lớn lên! +1 điểm lớn. (Trái chỉ ra theo mốc chuỗi 5/10/15 ngày)'; } else { document.getElementById('careMsg').textContent='Đã chăm 1/2 — cần đủ cả Nước và Phân trong ngày thì cây mới lớn, thiếu thì cây chỉ sống.'; } save(); }
 function harvest(){ if(!S.fruitsArr.length)return alert('Chưa có trái để thu hoạch — trái ra ở mốc chuỗi 5, 10, 15 ngày...'); const gain=S.fruitsArr.reduce((a,f)=>a+f.price,0); const n=S.fruitsArr.length; S.gold+=gain; alert(`Thu hoạch ${n} trái, bán được +${gain} vàng (Xanh 10 • Đỏ 25 • Vàng 50)`); S.fruitsArr=[]; save(); }
@@ -217,10 +231,9 @@ function drawOne(rarity){ const pool=CATALOG.filter(c=>c.rarity===rarity); retur
 function buyChest(type){ const conf={bronze:{price:100,count:5},silver:{price:500,count:10},gold:{price:1000,count:30}}[type]; if(S.gold<conf.price)return alert(`Chưa đủ vàng — cần ${conf.price}, đang có ${S.gold}. Hãy làm nhiệm vụ / thu hoạch trái để kiếm vàng.`); S.gold-=conf.price; const results=drawChestItems(type,conf.count); save(); showChestResults(type,results,false); go('collection'); }
 function addExpense(){ const title=document.getElementById('expTitle').value.trim(); const amount=parseInt(document.getElementById('expAmount').value||'0'); const cat=document.getElementById('expCat').value; if(!title||amount<=0)return alert('Nhập nội dung và số tiền chi'); if(amount>S.fundAvail)return alert('Quỹ khả dụng không đủ'); S.fundAvail-=amount; S.expenses.push({date:new Date().toLocaleDateString('vi-VN'),title,amount,cat}); document.getElementById('expTitle').value=''; document.getElementById('expAmount').value=''; save(); }
 function topupFund(){ const amount=parseInt(document.getElementById('topupAmount').value||'0'); const note=document.getElementById('topupNote').value.trim(); if(amount<=0)return alert('Nhập số tiền nạp thêm'); S.fundAvail+=amount; S.topups.push({date:new Date().toLocaleDateString('vi-VN'),amount,note}); document.getElementById('topupAmount').value=''; document.getElementById('topupNote').value=''; save(); alert(`Đã nạp thêm ${fmt(amount)} vào quỹ khả dụng`); }
-function claimLockedFund(){ const now=Date.now(); let total=0; S.fundLocked.forEach(x=>{if(!x.claimed&&now>=new Date(x.unlockAt).getTime()){x.claimed=true; total+=x.amount;}}); if(!total)return alert('Chưa tới ngày mở quỹ khóa (ngày 1 tháng sau) hoặc quỹ khóa đang trống'); S.fundAvail+=total; alert(`Đã mở quỹ khóa: +${fmt(total)} vào quỹ khả dụng`); save(); }
 function addNote(){ const title=document.getElementById('noteTitle').value.trim(); if(!title)return alert('Nhập điều cần ghi nhớ'); S.notes.push({title,body:document.getElementById('noteBody').value.trim(),date:new Date().toLocaleDateString('vi-VN')}); document.getElementById('noteTitle').value=''; document.getElementById('noteBody').value=''; save(); }
 function removeNote(idx){ S.notes.splice(idx,1); save(); }
-render();
+settleRollover(); save();
 </script>
 </body>
 </html>

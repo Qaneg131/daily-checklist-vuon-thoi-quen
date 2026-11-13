@@ -1,13 +1,15 @@
 # 🌱 Daily Checklist - Vườn Thói Quen
 
-Web app checklist mỗi ngày kiểu game hóa, có **thanh điều hướng dưới** gồm 5 mục: 🌳 Cây • 🎒 Bộ sưu tập • 🏠 Home • 💰 Chi tiêu • 📝 Ghi nhớ
+Web app checklist mỗi ngày kiểu game hóa, giao diện **tươi sáng, responsive đẹp trên mobile**, có **thanh điều hướng dưới** gồm 5 mục: 🌳 Cây • 🎒 Bộ sưu tập • 🏠 Home • 💰 Chi tiêu • 📝 Ghi nhớ
+
+> Lưu trữ: bản GitHub này lưu dữ liệu ở `localStorage` của từng trình duyệt — mỗi người mở link live sẽ có vườn / quỹ riêng trên máy của mình, không cần tài khoản. Muốn đăng nhập tài khoản và đồng bộ nhiều máy thì cần thêm backend (ví dụ Supabase/Firebase) — xem mục nâng cấp trong app chính trên Muse.
 
 ## Home — Checklist
 - Nhiệm vụ sức khỏe mặc định + tự thêm / xóa nhiệm vụ
 - **Uống nước 3 lít = 10 cốc × 300ml:** bấm từng cốc, đủ 10/10 mới hoàn thành nhiệm vụ nước và nhận +1 Nước tưới cây
 - **Tập thể dục xong = +1 Phân** bón cây
 - Hoàn thành ≥50% ngày = giữ / tăng streak; dưới 50% = mất streak, cây chết
-- **Xong 100% checklist + bấm Kết thúc ngày = nhận ngay** Vàng nhiệm vụ + **1 Rương Đồng miễn phí (5 vật phẩm)** — không chờ qua ngày mới
+- **Tích xong 100% checklist = nhận ngay** Vàng nhiệm vụ + **1 Rương Đồng miễn phí (5 vật phẩm)** với animation mở rương hồi hộp — không cần bấm chốt ngày, hệ thống **tự chốt lúc 24h đêm**
 - Home **không còn Hòm khóa** — đã chuyển logic khóa sang Quỹ chi tiêu VND
 
 ## 🌳 Cây
@@ -28,10 +30,11 @@ Web app checklist mỗi ngày kiểu game hóa, có **thanh điều hướng dư
 > **Vàng mua rương khác hoàn toàn với Quỹ chi tiêu VND.**
 
 ## 💰 Quỹ chi tiêu (VND)
-- Xong **100% checklist** ngày khi chốt ngày: **Quỹ khả dụng +100.000đ**, tiêu ngay; quỹ **luôn cộng dồn tích lũy**, không reset
+- 3 quỹ: **Khả dụng** (tiêu ngay) • **Khóa** • **Tiết kiệm** (để dành)
+- Đạt **100% checklist**: **+100.000đ vào Khả dụng ngay khi tích xong**; quỹ **luôn cộng dồn tích lũy**, không reset
 - Ghi chi tiêu **theo danh mục** (Ăn uống, Mua đồ, Di chuyển, Hóa đơn, Giải trí, Sức khỏe, Khác) để trừ dần, có tổng theo từng danh mục
-- Có mục **Nạp thêm** vào quỹ khả dụng
-- Chưa xong 100%: 100.000đ vào **Quỹ khóa**, mở vào **ngày 1 tháng sau**
+- Có mục **Nạp thêm** vào Khả dụng
+- Chưa xong 100% khi tự chốt 24h: 100.000đ vào **Khóa** — tiền vào ngày nào trong tháng (kể cả ngày 31) thì **ngày 1 tháng sau vẫn mở đủ**, và khi mở được chọn chuyển qua **Khả dụng** hoặc **Tiết kiệm**
 
 ## 📝 Ghi nhớ
 - Thêm / xóa các ghi chú cần nhớ, lưu ở trình duyệt
