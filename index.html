@@ -38,7 +38,7 @@ dialog{background:var(--card2);color:var(--text);border:1px solid #2a4a33;border
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center"><h2>🏠 Hôm nay</h2><span id="today"></span></div>
     <div class="progress"><div class="bar" id="bar" style="width:0%"></div></div>
-    <p class="small"><span id="pct">0%</span> hoàn thành • Dưới 50% khi chốt ngày = mất streak, cây chết • Đạt ≥50% = hoàn thành ngày, Quỹ chi tiêu +100.000đ (xem tab Chi tiêu)</p>
+    <p class="small"><span id="pct">0%</span> hoàn thành • Dưới 50% khi chốt ngày = mất streak, cây chết • Xong 100% checklist ngày = nhận ngay Vàng + 1 Rương Đồng miễn phí, Quỹ chi tiêu +100.000đ tiêu ngay • Chưa xong 100% = 100.000đ vào Quỹ khóa (xem tab Chi tiêu)</p>
     <div id="tasks"></div>
     <div class="card" style="margin-top:12px">
       <h3>💧 Uống nước: 3 lít = 10 cốc × 300ml</h3>
@@ -65,13 +65,14 @@ dialog{background:var(--card2);color:var(--text);border:1px solid #2a4a33;border
     <h2 id="treeName">Mầm non</h2>
     <p class="small" id="treeDesc"></p>
     <p><span class="pill">🍎 Trái trên cây: <b id="fruitCount">0</b></span><span class="pill">✨ Điểm lớn: <b id="growthPts">0</b></span></p>
+    <p class="small" id="fruitDetail">Chuỗi 5 ngày = cây bắt đầu có trái: mốc 5 → 1 trái, 10 → 2 trái, 15 → 3 trái, cứ mỗi 5 ngày chuỗi thêm 1 trái. Tỉ lệ trái: 🟢 Xanh lá 60% bán 10 vàng • 🔴 Đỏ 30% bán 25 vàng • 🟡 Vàng 10% bán 50 vàng</p>
     <div class="row">
       <button class="primary" onclick="careTree('water')">💧 Tưới nước (có: <span class='wStock'>0</span>)</button>
       <button class="primary" onclick="careTree('fert')">🌿 Bón phân (có: <span class='fStock'>0</span>)</button>
     </div>
     <p class="small">Đủ cả Nước (từ uống đủ nước) + Phân (từ tập thể dục) trong ngày rồi chăm cây thì cây mới <b>lớn + ra trái</b> (có hoạt ảnh lớn lên). Thiếu 1 trong 2, hoặc chỉ hoàn thành chuỗi, cây chỉ <b>sống</b> chứ không lớn.</p>
     <p id="careMsg" class="small"></p>
-    <button class="goldbtn" onclick="harvest()">🍎 Thu hoạch trái & Bán lấy Vàng (1 trái = 20 vàng)</button>
+    <button class="goldbtn" onclick="harvest()">🍎 Thu hoạch trái & Bán lấy Vàng (Xanh 10 • Đỏ 25 • Vàng 50)</button>
   </div>
 </section>
 
@@ -79,6 +80,7 @@ dialog{background:var(--card2);color:var(--text);border:1px solid #2a4a33;border
 <section id="page-collection" class="page">
   <div class="card">
     <h2>🎁 Rương — mua bằng Vàng</h2>
+    <p class="small">⭐ Riêng thưởng ngày: xong 100% checklist và bấm <b>Kết thúc ngày</b> ở Home là nhận <b>ngay</b> Vàng nhiệm vụ + 1 Rương Đồng miễn phí (5 vật phẩm), không cần chờ qua ngày mới.</p>
     <div class="chest"><span>🥉 <b>Rương Đồng — 100 vàng</b><br><span class="small">Mở ra 5 vật phẩm (Thường/Hiếm)</span></span><button class="goldbtn" onclick="buyChest('bronze')">Mở 100 🪙</button></div>
     <div class="chest"><span>🥈 <b>Rương Bạc — 500 vàng</b><br><span class="small">Mở ra 10 vật phẩm, chắc chắn có 1 Sử thi</span></span><button class="goldbtn" onclick="buyChest('silver')">Mở 500 🪙</button></div>
     <div class="chest"><span>🥇 <b>Rương Vàng — 1.000 vàng</b><br><span class="small">Mở ra 30 vật phẩm, có tỉ lệ ra 1 Huyền thoại</span></span><button class="goldbtn" onclick="buyChest('gold')">Mở 1.000 🪙</button></div>
@@ -94,10 +96,13 @@ dialog{background:var(--card2);color:var(--text);border:1px solid #2a4a33;border
   <div class="card">
     <h2>💰 Quỹ chi tiêu (VND) — khác với Vàng mua rương</h2>
     <p>Quỹ khả dụng: <b id="fundAvail2">0đ</b> • Quỹ đang khóa (mở ngày 1 tháng sau): <b id="fundLocked">0đ</b></p>
-    <p class="small">Hoàn thành ngày (≥50%) khi chốt ngày: +100.000đ vào quỹ khả dụng. Không hoàn thành: 100.000đ đó vào quỹ khóa, hết tháng / ngày 1 tháng sau mới mở.</p>
+    <p class="small">Xong 100% checklist ngày khi chốt ngày: +100.000đ vào quỹ khả dụng, tiêu ngay được. Chưa xong 100%: 100.000đ đó vào quỹ khóa, mở ngày 1 tháng sau. Quỹ khả dụng <b>luôn cộng dồn tích lũy</b>, không reset theo tháng.</p>
     <button class="primary" onclick="claimLockedFund()">🔓 Nhận quỹ khóa (khi đã tới ngày mở)</button>
-    <h3>Ghi chi tiêu</h3>
-    <div class="row"><input id="expTitle" placeholder="Tiêu gì? Ví dụ: Cà phê"/><input id="expAmount" type="number" min="1000" step="1000" placeholder="Số tiền VND" style="max-width:180px"/><button class="primary" onclick="addExpense()" style="flex:0">Trừ quỹ</button></div>
+    <h3>➕ Nạp thêm vào quỹ</h3>
+    <div class="row"><input id="topupAmount" type="number" min="1000" step="1000" placeholder="Số tiền nạp thêm VND"/><input id="topupNote" placeholder="Ghi chú nạp (không bắt buộc)"/><button class="primary" onclick="topupFund()" style="flex:0">Nạp thêm</button></div>
+    <h3>Ghi chi tiêu theo danh mục</h3>
+    <div class="row"><input id="expTitle" placeholder="Tiêu gì? Ví dụ: Cà phê"/><select id="expCat" style="max-width:160px"><option>Ăn uống</option><option>Mua đồ</option><option>Di chuyển</option><option>Hóa đơn</option><option>Giải trí</option><option>Sức khỏe</option><option>Khác</option></select><input id="expAmount" type="number" min="1000" step="1000" placeholder="Số tiền VND" style="max-width:180px"/><button class="primary" onclick="addExpense()" style="flex:0">Trừ quỹ</button></div>
+    <div id="expCatTotals" style="margin-top:10px"></div>
     <div id="expenses"></div>
   </div>
 </section>
@@ -141,6 +146,14 @@ const CATALOG=[
  {id:'vo-so',set:'🌊 Bộ Biển Xanh',icon:'🐚',name:'Vỏ Sò',rarity:'common'},{id:'sao-bien',set:'🌊 Bộ Biển Xanh',icon:'⭐',name:'Sao Biển',rarity:'common'},{id:'ca-xanh',set:'🌊 Bộ Biển Xanh',icon:'🐠',name:'Cá Xanh',rarity:'rare'},{id:'rua-bien',set:'🌊 Bộ Biển Xanh',icon:'🐢',name:'Rùa Biển',rarity:'rare'},{id:'ngoc-trai',set:'🌊 Bộ Biển Xanh',icon:'🦪',name:'Ngọc Trai Tím',rarity:'epic'},{id:'vuong-mien-bien',set:'🌊 Bộ Biển Xanh',icon:'👑',name:'Vương Miện Đại Dương',rarity:'legendary'},
  // Bộ Bầu Trời
  {id:'may-trang',set:'☁️ Bộ Bầu Trời',icon:'☁️',name:'Mây Trắng',rarity:'common'},{id:'gio-nhe',set:'☁️ Bộ Bầu Trời',icon:'🍃',name:'Lông Vũ Gió',rarity:'common'},{id:'chim-xanh',set:'☁️ Bộ Bầu Trời',icon:'🐦',name:'Chim Xanh',rarity:'rare'},{id:'cau-vong',set:'☁️ Bộ Bầu Trời',icon:'🌈',name:'Mảnh Cầu Vồng',rarity:'rare'},{id:'sao-bang',set:'☁️ Bộ Bầu Trời',icon:'💫',name:'Sao Băng Tím',rarity:'epic'},{id:'ky-lan',set:'☁️ Bộ Bầu Trời',icon:'🦄',name:'Kỳ Lân Cam',rarity:'legendary'},
+ // Bộ Khu Rừng
+ {id:'hat-doi',set:'🌲 Bộ Khu Rừng',icon:'🌰',name:'Hạt Dồi',rarity:'common'},{id:'la-rung',set:'🌲 Bộ Khu Rừng',icon:'🍂',name:'Lá Rừng',rarity:'common'},{id:'soc-rung',set:'🌲 Bộ Khu Rừng',icon:'🐿️',name:'Sóc Rừng',rarity:'rare'},{id:'cu-rung',set:'🌲 Bộ Khu Rừng',icon:'🦉',name:'Cú Rừng',rarity:'rare'},{id:'nai-tim',set:'🌲 Bộ Khu Rừng',icon:'🦌',name:'Nai Tím',rarity:'epic'},{id:'ho-rung',set:'🌲 Bộ Khu Rừng',icon:'🐯',name:'Hổ Rừng Cam',rarity:'legendary'},
+ // Bộ Hoàng Hôn
+ {id:'cat-vang',set:'🌅 Bộ Hoàng Hôn',icon:'🏜️',name:'Cát Vàng',rarity:'common'},{id:'xu-rong',set:'🌅 Bộ Hoàng Hôn',icon:'🌵',name:'Xương Rồng',rarity:'common'},{id:'lac-da',set:'🌅 Bộ Hoàng Hôn',icon:'🐪',name:'Lạc Đà',rarity:'rare'},{id:'dieu-hau',set:'🌅 Bộ Hoàng Hôn',icon:'🦅',name:'Diều Hâu',rarity:'rare'},{id:'mat-troi-tim',set:'🌅 Bộ Hoàng Hôn',icon:'🌇',name:'Mặt Trời Tím',rarity:'epic'},{id:'phuong-hoang',set:'🌅 Bộ Hoàng Hôn',icon:'🔥',name:'Phượng Hoàng Lửa',rarity:'legendary'},
+ // Bộ Núi Tuyết
+ {id:'bong-tuyet',set:'❄️ Bộ Núi Tuyết',icon:'❄️',name:'Bông Tuyết',rarity:'common'},{id:'da-bang',set:'❄️ Bộ Núi Tuyết',icon:'🧊',name:'Đá Băng',rarity:'common'},{id:'chim-canh-cut',set:'❄️ Bộ Núi Tuyết',icon:'🐧',name:'Chim Cánh Cụt',rarity:'rare'},{id:'gau-bac-cuc',set:'❄️ Bộ Núi Tuyết',icon:'🐻‍❄️',name:'Gấu Bắc Cực',rarity:'rare'},{id:'cuc-quang',set:'❄️ Bộ Núi Tuyết',icon:'🌌',name:'Cực Quang Tím',rarity:'epic'},{id:'rong-bang',set:'❄️ Bộ Núi Tuyết',icon:'🐉',name:'Rồng Băng Cam',rarity:'legendary'},
+ // Bộ Vũ Trụ
+ {id:'thien-thach',set:'🚀 Bộ Vũ Trụ',icon:'☄️',name:'Thiên Thạch',rarity:'common'},{id:'ve-tinh',set:'🚀 Bộ Vũ Trụ',icon:'🛰️',name:'Vệ Tinh Nhỏ',rarity:'common'},{id:'phi-hanh-gia',set:'🚀 Bộ Vũ Trụ',icon:'👨‍🚀',name:'Phi Hành Gia',rarity:'rare'},{id:'hanh-tinh',set:'🚀 Bộ Vũ Trụ',icon:'🪐',name:'Hành Tinh Xanh',rarity:'rare'},{id:'thien-ha',set:'🚀 Bộ Vũ Trụ',icon:'🌠',name:'Thiên Hà Tím',rarity:'epic'},{id:'tau-huyen-thoai',set:'🚀 Bộ Vũ Trụ',icon:'🛸',name:'Đĩa Bay Huyền Thoại',rarity:'legendary'},
 ];
 const RNAME={common:'Thường',rare:'Hiếm',epic:'Sử thi',legendary:'Huyền thoại'};
 function starInfo(dup){ // dup = extra copies beyond first owned
@@ -150,7 +163,10 @@ function starInfo(dup){ // dup = extra copies beyond first owned
  return {star:0, next:5, have:dup, need:5};
 }
 let S=JSON.parse(localStorage.getItem('vuon-thoi-quen-v2')||'null');
-if(!S){ const old=JSON.parse(localStorage.getItem('vuon-thoi-quen')||'null'); S={gold:old?.coins||0,streak:old?.streak||0,tasks:DEFAULT,done:{},cups:0,waterStock:0,fertStock:0,waterUsedToday:false,fertUsedToday:false,growth:0,fruits:0,collection:{},history:[],fundAvail:0,fundLocked:[],expenses:[],notes:[]}; }
+if(!S){ const old=JSON.parse(localStorage.getItem('vuon-thoi-quen')||'null'); S={gold:old?.coins||0,streak:old?.streak||0,tasks:DEFAULT,done:{},cups:0,waterStock:0,fertStock:0,waterUsedToday:false,fertUsedToday:false,growth:0,fruitsArr:[],collection:{},history:[],fundAvail:0,fundLocked:[],expenses:[],topups:[],notes:[],settledToday:''}; }
+if(!Array.isArray(S.fruitsArr)){ S.fruitsArr=Array.from({length:(S.fruits||0)},()=>rollFruit()); delete S.fruits; }
+if(!Array.isArray(S.topups)) S.topups=[];
+function rollFruit(){ const r=Math.random(); if(r<0.60) return {color:'green',icon:'🟢',name:'Trái xanh lá',price:10}; if(r<0.90) return {color:'red',icon:'🔴',name:'Trái đỏ',price:25}; return {color:'yellow',icon:'🟡',name:'Trái vàng',price:50}; }
 function save(){localStorage.setItem('vuon-thoi-quen-v2',JSON.stringify(S));render()}
 function go(p){document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('active',b.dataset.nav===p));window.scrollTo({top:0})}
 function fmt(n){return n.toLocaleString('vi-VN')+'đ'}
@@ -169,31 +185,38 @@ function render(){
  document.getElementById('cups').innerHTML=Array.from({length:10},(_,i)=>`<button class="cup ${i<S.cups?'full':''}" onclick="setCups(${i+1})">🥤<br>${i+1}</button>`).join('');
  document.getElementById('cupText').textContent=`${S.cups}/10 cốc • ${S.cups*300} ml / 3.000 ml`;
  const [emoji,name]=treeStage(); const el=document.getElementById('treeEmoji'); el.textContent=emoji; el.style.fontSize=(90+Math.min(60,(S.streak+S.growth)*2))+'px';
- document.getElementById('treeName').textContent=name; document.getElementById('growthPts').textContent=S.growth; document.getElementById('fruitCount').textContent=S.fruits;
+ document.getElementById('treeName').textContent=name; document.getElementById('growthPts').textContent=S.growth; document.getElementById('fruitCount').textContent=S.fruitsArr.length;
  document.getElementById('birds').innerHTML=S.streak>=7?' <span class="bird">🐦</span> <span class="bird">🐤</span> <span class="bird">🦋</span>':(S.streak>=3?'<span class="bird">🐦</span>':'');
- document.getElementById('treeDesc').textContent=`Streak ${S.streak} ngày • Điểm lớn ${S.growth} • ${S.fruits} trái chờ thu hoạch. Cây càng lớn (streak + điểm lớn càng cao) càng nhiều trái và chim chóc.`;
- document.getElementById('history').innerHTML=S.history.slice(-7).reverse().map(h=>`<div class="small">• ${h.date}: ${h.pct}% — ${h.pct>=50?'✅ Hoàn thành ngày, quỹ +100.000đ khả dụng':'💀 Mất streak, 100.000đ vào quỹ khóa'} — +${h.earned} vàng</div>`).join('')||'<p class="small">Chưa chốt ngày nào.</p>';
+ const fc={green:0,red:0,yellow:0}; S.fruitsArr.forEach(f=>fc[f.color]++);
+ document.getElementById('treeDesc').textContent=`Streak ${S.streak} ngày • Điểm lớn ${S.growth} • ${S.fruitsArr.length} trái chờ thu hoạch (🟢 ${fc.green} • 🔴 ${fc.red} • 🟡 ${fc.yellow}). Trái ra ở mốc chuỗi 5 / 10 / 15... mỗi mốc +1 trái.`;
+ document.getElementById('history').innerHTML=S.history.slice(-7).reverse().map(h=>`<div class="small">• ${h.date}: ${h.pct}% — ${h.pct===100?'✅ Xong checklist: quỹ +100.000đ khả dụng, +1 Rương Đồng miễn phí':(h.pct>=50?'Giữ streak, nhưng chưa xong 100% nên 100.000đ vào quỹ khóa':'💀 Mất streak, 100.000đ vào quỹ khóa')} — +${h.earned} vàng</div>`).join('')||'<p class="small">Chưa chốt ngày nào.</p>';
  // Sets
  const sets=[...new Set(CATALOG.map(c=>c.set))];
  document.getElementById('sets').innerHTML=sets.map(set=>{const items=CATALOG.filter(c=>c.set===set); const owned=items.filter(c=>(S.collection[c.id]?.count||0)>0).length; return `<div class="card"><h3>${set} — ${owned}/${items.length} vật phẩm</h3><div class="collection">${items.map(c=>{const col=S.collection[c.id]; const count=col?.count||0; const dup=Math.max(0,count-1); const si=count?starInfo(dup):{star:0}; return `<div class="item ${c.rarity}"><div style="font-size:30px;${count?'':'filter:grayscale(1);opacity:.4'}">${c.icon}</div><b>${count?c.name:'???'}</b><br><span class="r-${c.rarity}">${RNAME[c.rarity]}</span><br><span class="small">${count?`Sở hữu ×${count} • ${'★'.repeat(si.star)}${'☆'.repeat(3-si.star)}<br>Bản sao: ${dup}${si.next?` / cần ${si.next} để lên sao`:''}`:'Chưa mở ra'}</span></div>`}).join('')}</div></div>`}).join('');
- document.getElementById('expenses').innerHTML=S.expenses.slice().reverse().map(e=>`<div class="small">• ${e.date} — ${e.title}: -${fmt(e.amount)}</div>`).join('')||'<p class="small">Chưa có chi tiêu nào.</p>';
+ const catTotals={}; S.expenses.forEach(e=>{catTotals[e.cat||'Khác']=(catTotals[e.cat||'Khác']||0)+e.amount});
+ document.getElementById('expCatTotals').innerHTML=Object.keys(catTotals).length?Object.entries(catTotals).map(([k,v])=>`<span class="pill">${k}: ${fmt(v)}</span>`).join(' '):'';
+ document.getElementById('expenses').innerHTML=[...S.topups.slice().reverse().map(e=>`<div class="small">• ${e.date} — ➕ Nạp thêm ${e.note?'('+e.note+')':''}: +${fmt(e.amount)}</div>`),...S.expenses.slice().reverse().map(e=>`<div class="small">• ${e.date} — [${e.cat||'Khác'}] ${e.title}: -${fmt(e.amount)}</div>`)].join('')||'<p class="small">Chưa có chi tiêu / nạp thêm nào.</p>';
  document.getElementById('notes').innerHTML=S.notes.slice().reverse().map((n,i)=>`<div class="chest"><span><b>${n.title}</b><br><span class="small">${n.body||''} • ${n.date}</span></span><button class="danger" onclick="removeNote(${S.notes.length-1-i})">Xóa</button></div>`).join('')||'<p class="small">Chưa có ghi nhớ nào.</p>';
 }
 function toggle(id){ const t=S.tasks.find(x=>x.id===id); if(!t||t.special==='water')return; S.done[id]=!S.done[id]; if(!S.done[id])delete S.done[id]; else if(t.special==='exercise'){S.fertStock+=1;} if(t.special==='exercise'&&!S.done[id]){S.fertStock=Math.max(0,S.fertStock-1);} save() }
 function setCups(n){ const before=S.cups; S.cups=(S.cups===n&&n>0)?n-1:n; if(before<10&&S.cups>=10){S.waterStock+=1;} if(before>=10&&S.cups<10){S.waterStock=Math.max(0,S.waterStock-1);} save() }
 function addTask(){const title=document.getElementById('newTitle').value.trim(); if(!title)return alert('Nhập tên nhiệm vụ'); S.tasks.push({id:'t'+Date.now(),title,reward:Math.max(1,parseInt(document.getElementById('newReward').value||'10')),cat:document.getElementById('newCat').value}); document.getElementById('newTitle').value=''; save()}
 function removeTask(id){S.tasks=S.tasks.filter(t=>t.id!==id); delete S.done[id]; save()}
-function resetToday(){S.done={};S.cups=0;S.waterUsedToday=false;S.fertUsedToday=false;save()}
-function finishDay(){ const p=pct(); const earned=S.tasks.filter(t=>isDone(t)).reduce((a,t)=>a+t.reward,0); S.gold+=earned; const today=new Date().toISOString().slice(0,10);
- if(p>=50){ S.streak+=1; S.fundAvail+=100000; if(S.streak%3===0) S.fruits+=1; document.getElementById('msg').textContent=`✅ ${p}% — hoàn thành ngày: +${earned} vàng, Quỹ khả dụng +100.000đ, streak ${S.streak}.`;} else { S.streak=0; const unlock=new Date(); unlock.setMonth(unlock.getMonth()+1,1); S.fundLocked.push({date:today,amount:100000,unlockAt:unlock.toISOString(),claimed:false}); document.getElementById('msg').textContent=`💀 ${p}% — mất streak, cây chết. 100.000đ vào Quỹ khóa, mở ngày 1 tháng sau.`; }
- S.history.push({date:today,pct:p,earned}); S.done={}; S.cups=0; S.waterUsedToday=false; S.fertUsedToday=false; save(); }
+function resetToday(){S.done={};S.cups=0;S.waterUsedToday=false;S.fertUsedToday=false;S.settledToday='';save()}
+function drawChestItems(type,count){ const results=[]; for(let i=0;i<count;i++){ let item; if(type==='silver'&&i===0) item=drawOne('epic'); else if(type==='gold'&&i===0&&Math.random()<0.35) item=drawOne('legendary'); else item=drawOne(rollRarity(type)); if(!S.collection[item.id])S.collection[item.id]={count:0}; S.collection[item.id].count++; results.push(item); } return results; }
+function showChestResults(type,results,free){ document.getElementById('chestDialogTitle').textContent=`${free?'🎁 Thưởng ngày — ':''}Mở rương ${type==='bronze'?'Đồng':type==='silver'?'Bạc':'Vàng'} — ${results.length} vật phẩm`; document.getElementById('chestResults').innerHTML=results.map(c=>`<div class="item ${c.rarity}"><div style="font-size:28px">${c.icon}</div><b>${c.name}</b><br><span class="r-${c.rarity}">${RNAME[c.rarity]}</span></div>`).join(''); document.getElementById('chestDialog').showModal(); }
+function finishDay(){ const today=new Date().toISOString().slice(0,10); if(S.settledToday===today) return alert('Hôm nay đã chốt ngày rồi — thưởng ngày chỉ nhận 1 lần/ngày'); const p=pct(); const earned=S.tasks.filter(t=>isDone(t)).reduce((a,t)=>a+t.reward,0); S.gold+=earned; S.settledToday=today; let freeChest=null; let fruitMsg='';
+ if(p>=50){ S.streak+=1; if(S.streak%5===0){ const f=rollFruit(); S.fruitsArr.push(f); fruitMsg=` Cây ra thêm 1 trái ${f.icon} ${f.name} (mốc chuỗi ${S.streak}, tổng trên cây tính mốc này là ${S.streak/5} trái nếu chưa thu hoạch).`; } } else { S.streak=0; S.fruitsArr=[]; }
+ if(p===100){ S.fundAvail+=100000; freeChest=drawChestItems('bronze',5); document.getElementById('msg').textContent=`✅ Xong 100% checklist — nhận ngay +${earned} vàng nhiệm vụ, Quỹ khả dụng +100.000đ, và 1 Rương Đồng miễn phí (5 vật phẩm đã vào Bộ sưu tập). Streak ${S.streak}.${fruitMsg}`; } else { const unlock=new Date(); unlock.setMonth(unlock.getMonth()+1,1); S.fundLocked.push({date:today,amount:100000,unlockAt:unlock.toISOString(),claimed:false}); document.getElementById('msg').textContent=p>=50?`Đã chốt ${p}% — nhận +${earned} vàng nhiệm vụ và giữ streak ${S.streak}, nhưng chưa xong 100% nên 100.000đ vào Quỹ khóa (mở ngày 1 tháng sau), chưa có Rương thưởng ngày.${fruitMsg}`:`💀 ${p}% — mất streak, cây chết và trái trên cây mất hết. Nhận +${earned} vàng nhiệm vụ đã làm, 100.000đ vào Quỹ khóa mở ngày 1 tháng sau.`; }
+ S.history.push({date:today,pct:p,earned}); S.done={}; S.cups=0; S.waterUsedToday=false; S.fertUsedToday=false; save(); if(freeChest) showChestResults('bronze',freeChest,true); }
 function careTree(kind){ if(kind==='water'){ if(S.waterStock<=0)return alert('Chưa có Nước — hãy uống đủ 10 cốc nước trước'); if(S.waterUsedToday)return alert('Hôm nay đã tưới rồi'); S.waterStock--; S.waterUsedToday=true; } else { if(S.fertStock<=0)return alert('Chưa có Phân — hãy hoàn thành nhiệm vụ Tập thể dục trước'); if(S.fertUsedToday)return alert('Hôm nay đã bón phân rồi'); S.fertStock--; S.fertUsedToday=true; }
- if(S.waterUsedToday&&S.fertUsedToday){ S.growth+=1; if(S.growth%2===0)S.fruits+=1; const el=document.getElementById('treeEmoji'); el.classList.remove('growing'); void el.offsetWidth; el.classList.add('growing'); document.getElementById('careMsg').textContent='🌟 Đủ Nước + Phân — cây lớn lên! +1 điểm lớn.'; } else { document.getElementById('careMsg').textContent='Đã chăm 1/2 — cần đủ cả Nước và Phân trong ngày thì cây mới lớn, thiếu thì cây chỉ sống.'; } save(); }
-function harvest(){ if(S.fruits<=0)return alert('Chưa có trái để thu hoạch'); const gain=S.fruits*20; S.gold+=gain; alert(`Thu hoạch ${S.fruits} trái, bán được +${gain} vàng`); S.fruits=0; save(); }
+ if(S.waterUsedToday&&S.fertUsedToday){ S.growth+=1; const el=document.getElementById('treeEmoji'); el.classList.remove('growing'); void el.offsetWidth; el.classList.add('growing'); document.getElementById('careMsg').textContent='🌟 Đủ Nước + Phân — cây lớn lên! +1 điểm lớn. (Trái chỉ ra theo mốc chuỗi 5/10/15 ngày)'; } else { document.getElementById('careMsg').textContent='Đã chăm 1/2 — cần đủ cả Nước và Phân trong ngày thì cây mới lớn, thiếu thì cây chỉ sống.'; } save(); }
+function harvest(){ if(!S.fruitsArr.length)return alert('Chưa có trái để thu hoạch — trái ra ở mốc chuỗi 5, 10, 15 ngày...'); const gain=S.fruitsArr.reduce((a,f)=>a+f.price,0); const n=S.fruitsArr.length; S.gold+=gain; alert(`Thu hoạch ${n} trái, bán được +${gain} vàng (Xanh 10 • Đỏ 25 • Vàng 50)`); S.fruitsArr=[]; save(); }
 function rollRarity(chest){ const r=Math.random(); if(chest==='bronze') return r<0.75?'common':'rare'; if(chest==='silver') return r<0.55?'common':(r<0.9?'rare':'epic'); return r<0.4?'common':(r<0.75?'rare':(r<0.95?'epic':'legendary')); }
 function drawOne(rarity){ const pool=CATALOG.filter(c=>c.rarity===rarity); return pool[Math.floor(Math.random()*pool.length)]; }
-function buyChest(type){ const conf={bronze:{price:100,count:5},silver:{price:500,count:10},gold:{price:1000,count:30}}[type]; if(S.gold<conf.price)return alert(`Chưa đủ vàng — cần ${conf.price}, đang có ${S.gold}. Hãy làm nhiệm vụ / thu hoạch trái để kiếm vàng.`); S.gold-=conf.price; const results=[]; for(let i=0;i<conf.count;i++){ let item; if(type==='silver'&&i===0) item=drawOne('epic'); else if(type==='gold'&&i===0&&Math.random()<0.35) item=drawOne('legendary'); else item=drawOne(rollRarity(type)); if(!S.collection[item.id])S.collection[item.id]={count:0}; S.collection[item.id].count++; results.push(item); } save(); document.getElementById('chestDialogTitle').textContent=`Mở rương ${type==='bronze'?'Đồng':type==='silver'?'Bạc':'Vàng'} — ${results.length} vật phẩm`; document.getElementById('chestResults').innerHTML=results.map(c=>`<div class="item ${c.rarity}"><div style="font-size:28px">${c.icon}</div><b>${c.name}</b><br><span class="r-${c.rarity}">${RNAME[c.rarity]}</span></div>`).join(''); document.getElementById('chestDialog').showModal(); go('collection'); }
-function addExpense(){ const title=document.getElementById('expTitle').value.trim(); const amount=parseInt(document.getElementById('expAmount').value||'0'); if(!title||amount<=0)return alert('Nhập nội dung và số tiền chi'); if(amount>S.fundAvail)return alert('Quỹ khả dụng không đủ'); S.fundAvail-=amount; S.expenses.push({date:new Date().toLocaleDateString('vi-VN'),title,amount}); document.getElementById('expTitle').value=''; document.getElementById('expAmount').value=''; save(); }
+function buyChest(type){ const conf={bronze:{price:100,count:5},silver:{price:500,count:10},gold:{price:1000,count:30}}[type]; if(S.gold<conf.price)return alert(`Chưa đủ vàng — cần ${conf.price}, đang có ${S.gold}. Hãy làm nhiệm vụ / thu hoạch trái để kiếm vàng.`); S.gold-=conf.price; const results=drawChestItems(type,conf.count); save(); showChestResults(type,results,false); go('collection'); }
+function addExpense(){ const title=document.getElementById('expTitle').value.trim(); const amount=parseInt(document.getElementById('expAmount').value||'0'); const cat=document.getElementById('expCat').value; if(!title||amount<=0)return alert('Nhập nội dung và số tiền chi'); if(amount>S.fundAvail)return alert('Quỹ khả dụng không đủ'); S.fundAvail-=amount; S.expenses.push({date:new Date().toLocaleDateString('vi-VN'),title,amount,cat}); document.getElementById('expTitle').value=''; document.getElementById('expAmount').value=''; save(); }
+function topupFund(){ const amount=parseInt(document.getElementById('topupAmount').value||'0'); const note=document.getElementById('topupNote').value.trim(); if(amount<=0)return alert('Nhập số tiền nạp thêm'); S.fundAvail+=amount; S.topups.push({date:new Date().toLocaleDateString('vi-VN'),amount,note}); document.getElementById('topupAmount').value=''; document.getElementById('topupNote').value=''; save(); alert(`Đã nạp thêm ${fmt(amount)} vào quỹ khả dụng`); }
 function claimLockedFund(){ const now=Date.now(); let total=0; S.fundLocked.forEach(x=>{if(!x.claimed&&now>=new Date(x.unlockAt).getTime()){x.claimed=true; total+=x.amount;}}); if(!total)return alert('Chưa tới ngày mở quỹ khóa (ngày 1 tháng sau) hoặc quỹ khóa đang trống'); S.fundAvail+=total; alert(`Đã mở quỹ khóa: +${fmt(total)} vào quỹ khả dụng`); save(); }
 function addNote(){ const title=document.getElementById('noteTitle').value.trim(); if(!title)return alert('Nhập điều cần ghi nhớ'); S.notes.push({title,body:document.getElementById('noteBody').value.trim(),date:new Date().toLocaleDateString('vi-VN')}); document.getElementById('noteTitle').value=''; document.getElementById('noteBody').value=''; save(); }
 function removeNote(idx){ S.notes.splice(idx,1); save(); }
