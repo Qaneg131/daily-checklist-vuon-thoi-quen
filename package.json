@@ -1,0 +1,1 @@
+{"description":"Daily Checklist - Vườn Thói Quen: checklist sức khỏe, streak vườn cây, hòm khóa 30 ngày, rương Đồng/Bạc/Vàng sưu tầm","license":"MIT","name":"daily-checklist-vuon-thoi-quen","scripts":{"dev":"node server.js","start":"node server.js"},"type":"module","version":"1.0.0"}
